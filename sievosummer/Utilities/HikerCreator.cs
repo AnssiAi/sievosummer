@@ -87,7 +87,7 @@ namespace sievosummer.Utilities
             }
 
             int gender = -1; //Initialized outside accepted range
-            while (gender < 0 || gender > options.Length)
+            while (gender < 0 || gender >= options.Length)
             {
                 Console.Write("Gender: ");
                 try
