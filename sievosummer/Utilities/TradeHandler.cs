@@ -50,9 +50,8 @@ namespace sievosummer.Utilities
                 }
 
                 List<Item> holdFirst = first.Inventory;
-                List<Item> holdSecond = second.Inventory;
 
-                repository.UpdateHikerInventory(first.HikerId, holdSecond);
+                repository.UpdateHikerInventory(first.HikerId, second.Inventory);
                 repository.UpdateHikerInventory(second.HikerId, holdFirst);
 
                 Console.WriteLine("Trade completed.");
