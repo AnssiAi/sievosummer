@@ -1,4 +1,5 @@
-﻿using System;
+﻿using sievosummer.data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,11 @@ namespace sievosummer.Models
         {
             Name = name;
             Value = value;
+        }
+
+        public override string ToString()
+        {
+            return $"{Name}: {Value} points";
         }
     }
 }

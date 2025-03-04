@@ -1,4 +1,5 @@
-﻿using sievosummer.Types;
+﻿using sievosummer.data;
+using sievosummer.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace sievosummer.Models
 {
     public class NewHikerDTO
     {
+        public int HikerId { get; private set; } = 0;
         public string Name { get; private set; }
         public int Age { get; private set; }
         public GenderOption Gender { get; private set; }
@@ -24,6 +26,11 @@ namespace sievosummer.Models
             LastLocation = coordinates;
             Inventory = inventory;
             IsInjured = injured;
+        }
+
+        public void SetNewInventory(List<Item> inventory)
+        {
+            Inventory = inventory;
         }
     }
 }

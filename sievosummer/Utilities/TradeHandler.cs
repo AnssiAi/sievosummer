@@ -10,8 +10,8 @@ namespace sievosummer.Utilities
 {
     public class TradeHandler
     {
-        private HikerRepository repository;
-        public TradeHandler(HikerRepository repo)
+        private IListable<Hiker, NewHikerDTO> repository;
+        public TradeHandler(IListable<Hiker, NewHikerDTO> repo)
         {
             repository = repo;
         }
@@ -20,8 +20,8 @@ namespace sievosummer.Utilities
             Console.WriteLine("Trade inventories");
             try
             {
-                Hiker first = repository.GetHikerById(firstId);
-                Hiker second = repository.GetHikerById(secondId);
+                Hiker first = repository.GetById(firstId);
+                Hiker second = repository.GetById(secondId);
 
                 if (first.IsInjured)
                 {
@@ -51,8 +51,12 @@ namespace sievosummer.Utilities
 
                 List<Item> holdFirst = first.Inventory;
 
-                repository.UpdateHikerInventory(first.HikerId, second.Inventory);
-                repository.UpdateHikerInventory(second.HikerId, holdFirst);
+                first.SetNewInventory(second.Inventory);
+                second.SetNewInventory(holdFirst);
+
+                repository.UpdateItem(first);
+                repository.UpdateItem(second);
+
 
                 Console.WriteLine("Trade completed.");
                 Console.WriteLine("--------------");

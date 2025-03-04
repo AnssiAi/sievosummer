@@ -1,5 +1,6 @@
 ﻿using sievosummer.data;
 using sievosummer.Models;
+using sievosummer.Tests.Mockups;
 using sievosummer.Tests.TestUtilities;
 using sievosummer.Types;
 using sievosummer.Utilities;
@@ -24,7 +25,7 @@ namespace sievosummer.Tests.Utilities
         [TestMethod]
         public void TradeInventories_NonEqualInvetories_NoTrade()
         {
-            HikerRepository hikerRepository = new HikerRepository();
+            HikerRepositoryMock hikerRepository = new HikerRepositoryMock();
             TradeHandler tradeHandler = new TradeHandler(hikerRepository);
             List<double> doeCoordinates = [28.0028, 86.8652];
             List<Item> doeInventory = [medicine, medicine, food, food, food, food, food];
@@ -34,8 +35,8 @@ namespace sievosummer.Tests.Utilities
             List<Item> doerInventory = [food, food, food, medicine, medicine, medicine, water, water];
             NewHikerDTO johnDoer = new NewHikerDTO("John Doer", 26, (GenderOption)0, doerCoordinates, doerInventory, false);
 
-            hikerRepository.CreateHiker(johnDoe);
-            hikerRepository.CreateHiker(johnDoer);
+            hikerRepository.AddNew(johnDoe);
+            hikerRepository.AddNew(johnDoer);
 
             string expect = "Trade could not complete: John Doe has less inventory points to exchange.";
             string result = "";
@@ -54,7 +55,7 @@ namespace sievosummer.Tests.Utilities
         [TestMethod]
         public void TradeInventories_EqualInventories_TradeSuccessful()
         {
-            HikerRepository hikerRepository = new HikerRepository();
+            HikerRepositoryMock hikerRepository = new HikerRepositoryMock();
             TradeHandler tradeHandler = new TradeHandler(hikerRepository);
             List<double> doeCoordinates = [28.0028, 86.8652];
             List<Item> doeInventory = [medicine, water, water, water, water, water];
@@ -64,8 +65,8 @@ namespace sievosummer.Tests.Utilities
             List<Item> doerInventory = [food, food, food, food, food, medicine, medicine];
             NewHikerDTO johnDoer = new NewHikerDTO("John Doer", 26, (GenderOption)0, doerCoordinates, doerInventory, false);
 
-            hikerRepository.CreateHiker(johnDoe);
-            hikerRepository.CreateHiker(johnDoer);
+            hikerRepository.AddNew(johnDoe);
+            hikerRepository.AddNew(johnDoer);
 
             try
             {
@@ -76,8 +77,8 @@ namespace sievosummer.Tests.Utilities
                 Console.WriteLine(ex.Message);
             }
 
-            Hiker doe = hikerRepository.GetHikerById(1);
-            Hiker doer = hikerRepository.GetHikerById(2);
+            Hiker doe = hikerRepository.GetById(1);
+            Hiker doer = hikerRepository.GetById(2);
 
             bool result = Enumerable.SequenceEqual(doerInventory, doe.Inventory, itemEqualityComparer) && Enumerable.SequenceEqual(doeInventory, doer.Inventory, itemEqualityComparer);
 
@@ -86,7 +87,7 @@ namespace sievosummer.Tests.Utilities
         [TestMethod]
         public void TradeInventories_HikerInjured_NoTrade()
         {
-            HikerRepository hikerRepository = new HikerRepository();
+            HikerRepositoryMock hikerRepository = new HikerRepositoryMock();
             TradeHandler tradeHandler = new TradeHandler(hikerRepository);
             List<double> doeCoordinates = [28.0028, 86.8652];
             List<Item> doeInventory = [medicine, water, water, water, water, water];
@@ -96,8 +97,8 @@ namespace sievosummer.Tests.Utilities
             List<Item> doerInventory = [food, food, food, food, food, medicine, medicine];
             NewHikerDTO johnDoer = new NewHikerDTO("John Doer", 26, (GenderOption)0, doerCoordinates, doerInventory, false);
 
-            hikerRepository.CreateHiker(johnDoe);
-            hikerRepository.CreateHiker(johnDoer);
+            hikerRepository.AddNew(johnDoe);
+            hikerRepository.AddNew(johnDoer);
 
             string expected = "Trade could not complete: John Doe is injured.";
             string result = "";

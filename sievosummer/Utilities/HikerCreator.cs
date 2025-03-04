@@ -11,10 +11,10 @@ namespace sievosummer.Utilities
 {
     public class HikerCreator
     {
-        private readonly ItemRepository itemRepository;
-        private readonly HikerRepository hikerRepository;
+        private readonly IListable<Item, NewItemDTO> itemRepository;
+        private readonly IListable<Hiker, NewHikerDTO> hikerRepository;
 
-        public HikerCreator(ItemRepository itemRepo, HikerRepository hikerRepo)
+        public HikerCreator(IListable<Item, NewItemDTO> itemRepo, IListable<Hiker, NewHikerDTO> hikerRepo)
         {
             itemRepository = itemRepo;
             hikerRepository = hikerRepo;
@@ -40,7 +40,7 @@ namespace sievosummer.Utilities
 
             Console.WriteLine($"Hiker: {hiker.Name} created.");
 
-            hikerRepository.CreateHiker(hiker);
+            hikerRepository.AddNew(hiker);
         }
         private string GetHikerName()
         {
@@ -146,7 +146,7 @@ namespace sievosummer.Utilities
         private List<Item> GetInventory()
         {
             string inputError = "Please give a valid number or exit with q.";
-            List<Item> itemListing = itemRepository.GetItems();
+            List<Item> itemListing = itemRepository.GetAll();
             List<Item> inventory = new List<Item>();
             for (int i = 0; i < itemListing.Count; i++)
             {

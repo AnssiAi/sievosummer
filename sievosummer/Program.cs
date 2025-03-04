@@ -22,7 +22,7 @@ namespace sievosummer
             Console.WriteLine("--------------");
 
             //Show info
-            foreach (Hiker hiker in hikerRepository.GetHikers())
+            foreach (Hiker hiker in hikerRepository.GetAll())
             {
                 Console.WriteLine(hiker.ToString());
                 Console.WriteLine("--------------");
@@ -33,7 +33,7 @@ namespace sievosummer
             try
             {
                 tradeHandler.TradeInventories(1, 2);
-                foreach (Hiker hiker in hikerRepository.GetHikers())
+                foreach (Hiker hiker in hikerRepository.GetAll())
                 {
                     Console.WriteLine(hiker.ToString());
                     Console.WriteLine("--------------");
