@@ -1,17 +1,18 @@
-﻿using sievosummer.Models;
+﻿using sievosummer.data;
+using sievosummer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace sievosummer.data
+namespace sievosummer.Tests.Mockups
 {
-    public class HikerRepository: IListable<Hiker, NewHikerDTO>
+    internal class HikerRepositoryMock : IListable<Hiker, NewHikerDTO>
     {
         private List<Hiker> Hikers;
 
-        public HikerRepository()
+        public HikerRepositoryMock()
         {
             //Entity Framework databasecontext could be injected here
             Hikers = new List<Hiker>();

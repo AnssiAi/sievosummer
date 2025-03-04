@@ -25,7 +25,7 @@ namespace sievosummer.Tests.data
             testItems.Add(new Item(testItems.Count + 1, "Batteries", 2));
             testItems.Add(new Item(testItems.Count + 1, "Card deck", 1));
 
-            List<Item> result = itemRepository.GetItems();
+            List<Item> result = itemRepository.GetAll();
 
             bool equal = Enumerable.SequenceEqual(testItems, result, itemEqualityComparer);
 
@@ -37,9 +37,9 @@ namespace sievosummer.Tests.data
         {
             int expectedCount = 6;
             NewItemDTO expectedItem = new NewItemDTO("Map", 6);
-            itemRepository.CreateItem(expectedItem);
+            itemRepository.AddNew(expectedItem);
 
-            List<Item> result = itemRepository.GetItems();
+            List<Item> result = itemRepository.GetAll();
             Item item = result.FirstOrDefault(item => item.Name == expectedItem.Name);
 
             Assert.AreEqual(expectedCount, result.Count);

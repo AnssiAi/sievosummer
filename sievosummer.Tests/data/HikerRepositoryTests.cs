@@ -31,10 +31,10 @@ namespace sievosummer.Tests.data
             List<double> doerCoordinates = [28.0092, 86.8545];
             List<Item> doerInventory = [food, food, food, medicine, medicine, medicine, water, water];
             NewHikerDTO johnDoer = new NewHikerDTO("John Doer", 26, (GenderOption)0, doerCoordinates, doerInventory, false);
-            hikerRepository.CreateHiker(johnDoe);
-            hikerRepository.CreateHiker(johnDoer);
+            hikerRepository.AddNew(johnDoe);
+            hikerRepository.AddNew(johnDoer);
 
-            List<Hiker> result = hikerRepository.GetHikers();
+            List<Hiker> result = hikerRepository.GetAll();
 
             Assert.AreEqual(2, result.Count);
         }
@@ -46,10 +46,10 @@ namespace sievosummer.Tests.data
             List<Item> doeInventory = [medicine, medicine, food, food, food, food, food];
             NewHikerDTO johnDoe = new NewHikerDTO("John Doe", 24, (GenderOption)1, doeCoordinates, doeInventory, false);
 
-            hikerRepository.CreateHiker(johnDoe);
+            hikerRepository.AddNew(johnDoe);
             int validId = 1;
 
-            Hiker result = hikerRepository.GetHikerById(validId);
+            Hiker result = hikerRepository.GetById(validId);
 
             Assert.IsNotNull(result);
         }
@@ -61,13 +61,13 @@ namespace sievosummer.Tests.data
             List<Item> doeInventory = [medicine, medicine, food, food, food, food, food];
             NewHikerDTO johnDoe = new NewHikerDTO("John Doe", 24, (GenderOption)1, doeCoordinates, doeInventory, false);
 
-            hikerRepository.CreateHiker(johnDoe);
+            hikerRepository.AddNew(johnDoe);
             int invalidId = 5;
             string expected = "Hiker not found.";
             string result = "";
             try
             {
-                Hiker hiker = hikerRepository.GetHikerById(invalidId);
+                Hiker hiker = hikerRepository.GetById(invalidId);
             }
             catch (Exception ex)
             {
@@ -78,21 +78,24 @@ namespace sievosummer.Tests.data
             Assert.AreEqual(expected, result);
         }
         [TestMethod]
-        public void UpdateHikerInventory_ValidID_InventoryIsUpdated()
+        public void UpdateHiker_ValidID_InventoryIsUpdated()
         {
             HikerRepository hikerRepository = new HikerRepository();
             List<double> doeCoordinates = [28.0028, 86.8652];
             List<Item> doeInventory = [medicine, medicine, food, food, food, food, food];
             NewHikerDTO johnDoe = new NewHikerDTO("John Doe", 24, (GenderOption)1, doeCoordinates, doeInventory, false);
 
-            hikerRepository.CreateHiker(johnDoe);
+            hikerRepository.AddNew(johnDoe);
             int validId = 1;
             List<Item> expectedInventory = [food, food, food, medicine, medicine, medicine, water, water];
+            Hiker hiker = hikerRepository.GetById(validId);
+            hiker.SetNewInventory(expectedInventory);
+            hikerRepository.UpdateItem(hiker);
 
-            hikerRepository.UpdateHikerInventory(validId, expectedInventory);
-            Hiker hiker = hikerRepository.GetHikerById(validId);
+            Hiker updated = hikerRepository.GetById(validId);
 
-            bool result = Enumerable.SequenceEqual(expectedInventory, hiker.Inventory, itemEqualityComparer);
+
+            bool result = Enumerable.SequenceEqual(expectedInventory, updated.Inventory, itemEqualityComparer);
 
             Assert.IsTrue(result);
         }
